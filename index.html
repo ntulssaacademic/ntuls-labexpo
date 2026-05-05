@@ -5,26 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 生命科學實驗室博覽會 - 探索你的科學家類型</title>
     
-    <!-- 引入 html2canvas 套件，用於自動生成長按可存的結果圖 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <!-- 👇 你的 Google Analytics (GA4) 追蹤碼放這裡 👇 -->
-    <!--
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX'); // 請替換成你的測量 ID
-    </script>
-    -->
+
 
     <style>
         /* --- 唯美水藍色調與全域設定 --- */
         :root {
             --bg-gradient: linear-gradient(135deg, #E0F2F1 0%, #B2EBF2 100%);
-            --text-navy: #1A365D; /* 深灰藍色，比純黑柔和 */
-            --btn-blue: #4FB0C6; /* 水藍色按鈕 */
+            --text-navy: #1A365D; 
+            --btn-blue: #4FB0C6; 
             --btn-blue-hover: #3A96A8;
             --glass-bg: rgba(255, 255, 255, 0.65);
             --glass-border: rgba(255, 255, 255, 0.9);
@@ -36,17 +26,16 @@
         body { 
             font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif;
             color: var(--text-navy);
-            background-color: #f4f9f9; /* 避免電腦版兩側太白 */
+            background-color: #f4f9f9; 
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* 模擬 9:16 手機畫面的主容器 */
         .game-app {
             width: 100%;
-            max-width: 420px; /* 控制在手機寬度 */
+            max-width: 420px; 
             min-height: 100vh;
             background: var(--bg-gradient);
             position: relative;
@@ -58,7 +47,6 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        /* 電腦版時加上圓角，看起來像手機外框 */
         @media (min-width: 450px) {
             .game-app {
                 min-height: 800px;
@@ -68,7 +56,6 @@
             }
         }
 
-        /* --- 介面區塊樣式 --- */
         .screen {
             display: none; 
             width: 100%;
@@ -97,7 +84,6 @@
             margin-bottom: 20px;
         }
 
-        /* --- 文字與按鈕 --- */
         h1 { font-size: 1.6rem; margin-bottom: 15px; line-height: 1.4; color: var(--text-navy); }
         h2 { font-size: 1.3rem; margin-bottom: 15px; color: var(--text-navy); }
         
@@ -107,7 +93,7 @@
             line-height: 1.5; 
             font-weight: bold; 
             text-align: left; 
-            padding: 0 5px; /* 增加一點點左右內邊距 */
+            padding: 0 5px; 
         }
         
         p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; color: #34495e; }
@@ -126,7 +112,6 @@
             text-decoration: none;
         }
 
-        /* 統一水藍色調按鈕 */
         .btn-primary { 
             background: var(--btn-blue); 
             color: white; 
@@ -134,7 +119,6 @@
         }
         .btn-primary:active { transform: scale(0.96); background: var(--btn-blue-hover); }
 
-        /* 選項按鈕：靠左、字體略小以區分層次 */
         .btn-option { 
             background: rgba(255, 255, 255, 0.9); 
             color: var(--text-navy); 
@@ -147,7 +131,6 @@
         }
         .btn-option:active { background: #E0F2F1; transform: scale(0.98); }
 
-        /* 進度條 */
         .progress-container { 
             width: 100%; height: 6px; 
             background: rgba(255,255,255,0.6); 
@@ -161,9 +144,8 @@
             transition: width 0.4s ease; 
         }
 
-        /* --- 結果生成區 (此區塊會被截圖，設計上必須完整美觀) --- */
         #capture-area {
-            background: linear-gradient(135deg, #E0F2F1 0%, #B2EBF2 100%); /* 截圖的底色 */
+            background: linear-gradient(135deg, #E0F2F1 0%, #B2EBF2 100%);
             padding: 30px 20px;
             border-radius: 20px;
             text-align: center;
@@ -190,12 +172,11 @@
             line-height: 1.5;
         }
 
-        /* 生成的圖片元素設定 */
         #final-image {
             width: 100%;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            display: none; /* 預設隱藏，生成後顯示 */
+            display: none; 
         }
     </style>
 </head>
@@ -241,10 +222,7 @@
 
     <!-- 5. 結果頁 -->
     <div class="screen" id="result-screen">
-        <!-- 這個是給使用者長按存取的「真實圖片」 -->
         <img id="final-image" alt="測驗結果截圖">
-
-        <!-- 這是被 html2canvas 拍照的 HTML 區塊，拍完後就會被隱藏 -->
         <div id="capture-area">
             <p style="font-weight: bold; color: #666; margin-bottom: 10px;">我的科學家靈魂是...</p>
             <div class="result-box">
@@ -255,7 +233,7 @@
             </div>
             <div class="expo-box">
                 🎉 <b>截圖抽大獎！</b><br>
-                憑此截圖至 5/16 臺大生命科學館<br>【生命科學實驗室博覽會】現場即可參加抽獎！
+                憑此截圖至 5/16日 臺大生命科學館<br>【生命科學實驗室博覽會】現場即可參加抽獎！
             </div>
         </div>
 
@@ -268,7 +246,6 @@
 </div>
 
 <script>
-    /* --- 圖片副檔名已全部更新為 .png --- */
     const archetypes = {
         visionary: { title: "腦洞大開的發想家", desc: "你的大腦隨時都在進行背景運算，擅長從碎片資訊中建構模型。對你來說，科學與生活都是一場優雅的思維藝術", quote: "「行動還沒開始，已經在腦中推演完結局了」", img: "腦.png" },
         master: { title: "精準至上的實作派", desc: "你是最可靠的存在。操作精準無比，重視邏輯與實證，任何誤差都逃不過你銳利的雙眼，數據在你手中就是真理", quote: "「我的成果會說話，而且只說實話」", img: "燒杯.png" },
@@ -422,7 +399,6 @@
 
         setTimeout(() => {
             showScreen('result-screen');
-            // 當進入結果頁後，呼叫 html2canvas 把 #capture-area 拍下來
             generateImage();
         }, 1500);
     }
@@ -431,16 +407,13 @@
         const captureArea = document.getElementById('capture-area');
         const finalImage = document.getElementById('final-image');
         
-        // 確保圖片與字體都載入後才截圖
         html2canvas(captureArea, { scale: 2, backgroundColor: null }).then(canvas => {
-            // 將 Canvas 轉為 Base64 圖片並放入 img 標籤中
             finalImage.src = canvas.toDataURL("image/png");
-            finalImage.style.display = "block"; // 顯示截圖
-            captureArea.style.display = "none"; // 隱藏原本的 HTML 區塊
+            finalImage.style.display = "block"; 
+            captureArea.style.display = "none"; 
         });
     }
 
-    /* --- 原生社群分享功能 --- */
     function shareResult() {
         if (navigator.share) {
             navigator.share({
